@@ -1,0 +1,48 @@
+\chapter{Discusiones}
+\label{Cap_Errores}
+\label{Capitulo_5}
+
+Los experimentos realizados, tanto en entornos simulados como reales, han mostrado resultados alentadores en la estimación de ubicación, mostrando resultados prometedores en la estimación de ubicación. Al mismo tiempo, se han detectado ciertos errores y limitaciones que afectan la precisión del sistema. En este capítulo analizaremos en detalle los errores identificados y propondremos mejoras que permitan optimizar aún más el desempeño de un sistema similar.
+
+
+\section{Análisis de Errores y Mejoras}
+
+\subsection{Interferencia Ambiental y Variabilidad de la Señal}
+
+Uno de los principales desafíos encontrados durante los experimentos fue la interferencia ambiental, que afecta significativamente la calidad y la consistencia de las señales \acs{wifi}. Como se muestra en la Figura \ref{fig:errores-estatico}, las variaciones en la intensidad de la señal \acs{rssi} debido a la interferencia del ambiente pueden introducir errores significativos en la estimación de la distancia y, por ende, en la localización del dispositivo.
+
+Otro impedimento fue la inconsistencia en la recepción de paquetes, atribuible a inestabilidades en el suministro de energía de los dispositivos utilizados. Como se puede ver también en la Figura \ref{fig:errores-estatico}, se observó una marcada diferencia en el número de muestras recibidas: mientras algunos dispositivos capturaron hasta 700 muestras, otros apenas 70. Dado que no hubo movimiento en el experimento, estas discrepancias sugieren que, además de la interferencia ambiental, la variabilidad en la alimentación al usar batería de \textit{LI-ION} sin adaptar el voltaje a 5V continuo pudo haber afectado el desempeño, generando fallos a nivel de hardware.
+
+\textbf{Se propone como trabajo futuro:}
+Primero revisar la consistencia en la recepción mejorando la alimentación del hardware agregándole un módulo \textit{Step-Up} de 3V-4V a 5V. Para mitigar el impacto de la interferencia ambiental, se recomienda implementar algoritmos de filtrado más avanzados, como filtros de partículas o técnicas de aprendizaje automático, que puedan identificar y compensar las fluctuaciones anómalas en la intensidad de la señal en tiempo real. Además, el uso de modelos de propagación de señales más complejos que tengan en cuenta las características específicas del entorno urbano puede ayudar a mejorar la precisión de las estimaciones.
+
+\subsection{Desafíos en la Multilateración y la Estimación de Distancias}
+
+La multilateración, aunque efectiva en teoría, se enfrenta a desafíos prácticos significativos cuando se implementa en entornos urbanos densamente poblados. La precisión de la multilateración depende de la exactitud de las estimaciones de distancia basadas en el \acs{rssi}, que pueden verse comprometidas por múltiples factores, incluyendo la orientación de los dispositivos y la presencia de obstáculos físicos.
+
+\textbf{Se propone como trabajo futuro:}
+Una posible mejora sería incorporar información adicional en el proceso de perfilado, mediante la adición de un módulo \acs{gps}. Se podrían, de esta manera, incorporar coordenadas exactas de los nodos durante la etapa de perfilado y la orientación exacta del dispositivo pasaría a ser irrelevante si se utiliza una antena omnidireccional. 
+
+Otra mejora podría ser realizar perfilado individual por cada nodo y aplicar los valores encontrados en el proceso de multilateración. En vez del perfilado general realizado donde se eligieron los valores con el menor residual y se aplicaron a todos los nodos.
+
+Finalmente, la calibración periódica de los nodos \textbf{Sniffer} utilizándose entre sí mismos como puntos conocidos permitiría el ajuste dinámico de los parámetros del modelo de propagación de señales contribuyendo así también a una mayor precisión.
+
+
+
+
+\subsection{Limitaciones del Hardware y la Infraestructura}
+
+El rendimiento y las capacidades de los nodos \textbf{Sniffer} basados en \acs{esp}, aunque impresionantes dada su baja coste y accesibilidad, imponen limitaciones en términos de procesamiento y alcance de la señal. Estas limitaciones pueden restringir la escala y la resolución de los experimentos de localización.
+
+
+Desde que el grupo de investigación comenzó a utilizar los \acs{esp}, surgieron múltiples problemas. El más grave de ellos fue la confiabilidad en la recepción de señal. Hubieron experimentos enteros que tuvieron que ser descartados debido a la recepción de la señal con grandes errores. Y muchos donde uno o varios de los nodos por momentos dejaron de recibir señal. Si bien algunos de estos problemas fueron identificados como falta de energía por el error al conectar el suministro de 5V como se describió anteriormente, también se lo atribuimos al software. El ESP-SDK, que si bien nos facilitó poner dichos dispositivos en modo promiscuo, dificultó el desarrollo del trabajo. Durante los primeros experimentos los datos de dichas pruebas tuvieron que ser completamente descartados por haber usado como base para nuestro software ejemplos de código del SDK disponible en internet que emitía mediciones completamente erradas de \acs{rssi}. Luego se investigó un poco más y se utilizó otro software y fue resuelto. El software utilizado se encuentra en el último capítulo de este trabajo.
+
+Los problemas observados en los experimentos se deben, en parte también, a la forma en que se instalaron los nodos. En la configuración actual, los nodos se apoyaron sobre un tubo de PVC, lo que implicó que quedaran orientados en direcciones desconocidas y utilizaban las antenas que vienen impresas en el circuito del dispositivo que sabemos que tienen un patrón direccional sesgado en lugar de antenas omnidireccionales \cite{Yoppy2018RSSICO}. Además, la ubicación GPS de los nodos fue estimada, lo que impidió conocer con exactitud su posición y altura. En un escenario ideal, al emplear antenas omnidireccionales la orientación de los nodos no afectaría la captación de señales y si se dispone 
+de datos precisos de GPS, junto con una altura definida (por ejemplo, al estar instalados en postes de luz), permitiría obtener mediciones más estables y precisas.
+
+Además La recepción de paquetes se vio limitada en su duración ya que la memoria de los dispositivos se llena muy rápido y al no tener múltiples interfaces, una para recibir y otra para transmitir los paquetes. Sólo era posible recibir y enviar por turnos debido a que en modo promiscuo sólo es posible recibir en esa interfaz.
+
+\textbf{Se propone como trabajo futuro:} la exploración de hardware alternativo que incorpore múltiples antenas, una para la recolección de datos y otra para la evacuación, con capacidades superiores de procesamiento y una antena con mejor ganancia para mejorar la recepción de señales. Además, el desarrollo de una infraestructura de red robusta que permita manejar de manera eficiente la recopilación y el análisis de grandes volúmenes de datos de \acs{rssi} para ser enviados a un servidor centralizado, será fundamental para superar las limitaciones actuales. Estas mejoras permitirían que los nodos se mantuvieran más fijos y que las mediciones fueran más precisas, optimizando el desempeño en aplicaciones a gran escala.
+
+\section{Consideraciones Finales}
+Durante el análisis de errores se constató que, si bien la localización y seguimiento de dispositivos móviles en entornos urbanos presenta desafíos inherentes, los experimentos han permitido identificar áreas claras de mejora. Las estrategias de optimización implementadas han contribuido a mejorar la consistencia en la recepción de señales y la precisión de las estimaciones, lo que refuerza la viabilidad del enfoque propuesto. Esta etapa ha proporcionado un marco de referencia sólido para futuras investigaciones, especialmente en el desarrollo de soluciones de bajo costo aplicables en el contexto de ciudades inteligentes.

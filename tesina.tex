@@ -1,0 +1,563 @@
+
+%----------------------------------------------------------------------------------------
+% Impresión de un lado de la hoja
+\documentclass[notitlepage]{report}
+\usepackage[paper=a4paper,top=2in, bottom=1in, left=1in, right=1in]{geometry}
+
+%----------------------------------------------------------------------------------------
+% Impresión para libros (de los dos lados de la hoja)
+%\documentclass[a4paper,twoside, notitlepage]{report}
+%----------------------------------------------------------------------------------------
+% PAQUETES NECESARIOS
+\usepackage[utf8]{inputenc} % set input encoding
+\usepackage{amsmath}
+\usepackage{amssymb} %para mathbb
+\usepackage{eqnarray}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{xcolor}
+\usepackage{xfrac}
+\usepackage{esint}
+\usepackage{mathcomp}
+\usepackage[rightcaption]{sidecap}
+\usepackage{graphicx} 
+\usepackage{array}
+\usepackage{todonotes}
+\newenvironment{conditions}
+  {\par\vspace{\abovedisplayskip}\noindent\begin{tabular}{>{$}l<{$} @{${}={}$} l}}
+  {\end{tabular}\par\vspace{\belowdisplayskip}}% necesario para agregar gráficos.
+\usepackage[margin=2cm]{caption}  		% por defecto 2cm
+\usepackage[spanish]{babel}
+\usepackage[hidelinks]{hyperref}
+\usepackage{afterpage}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{acro} 
+\usepackage[lined,ruled,vlined,linesnumbered,spanish, onelanguage]{algorithm2e}
+\usepackage{listings}
+
+% Anexos y readecuación de nombres.
+\usepackage[toc,page]{appendix}
+\addto\captionsspanish{%
+	\renewcommand\appendixname{Anexo}
+	\renewcommand\appendixpagename{Anexos}
+	\renewcommand\appendixtocname{Anexos}
+}
+%----------------------------------------------------------------------------------------
+% CONFIGURACIÓN INTERLÍNEA. 
+% Quitar el comentario a \usepackage{setspace} y 
+% seleccionar alguna de las opciones (quitar % a la elegida)
+% \usepackage{setspace}
+
+% Opciones:
+%\doublespacing
+%\onehalfspacing
+%\singlespace
+%----------------------------------------------------------------------------------------
+% Estilo para encabezado de página
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\bfseries\leftmark} % Título
+\fancyhead[R]{\bfseries\thepage}  % Nro de página
+\renewcommand\headrulewidth{0pt}  % línea 
+%----------------------------------------------------------------------------------------
+% Algunos colores de diseño
+\definecolor{hyperlink}{rgb}{0,0,93.3}
+\definecolor{ideicolor}{RGB}{139, 13, 51}
+
+%============================================================
+% DEFINICIÓN DE COMANDOS PARA CARGA DE DATOS
+\NewDocumentCommand{\universidad}{m}{\newcommand{\univn}{#1}}
+\NewDocumentCommand{\instituto}{m}{\newcommand{\instn}{#1}}
+\NewDocumentCommand{\autor}{m}{\newcommand{\autorn}{#1}}
+\NewDocumentCommand{\coautor}{m}{\newcommand{\coautorn}{#1}}
+\NewDocumentCommand{\autormail}{m}{\newcommand{\autorm}{#1}}
+\NewDocumentCommand{\coautormail}{m}{\newcommand{\coautorm}{#1}}
+\NewDocumentCommand{\supervisor}{m}{\newcommand{\supname}{#1}}
+\NewDocumentCommand{\cosupervisor}{m}{\newcommand{\cosupname}{#1}}
+\NewDocumentCommand{\examiner}{m}{\newcommand{\examname}{#1}}
+\NewDocumentCommand{\grado}{m}{\newcommand{\gradon}{#1}}
+\NewDocumentCommand{\grupo}{m}{\newcommand{\grupon}{#1}}
+\NewDocumentCommand{\subject}{m}{\newcommand{\subjectname}{#1}}
+\NewDocumentCommand{\keywords}{m}{\newcommand{\keywordnames}{#1}}
+\NewDocumentCommand{\titulo}{m}{\newcommand{\ttitle}{#1}}
+
+%============================================================
+% Algunos formatos nuevos para separar el formato del contexto
+\newcommand{\keyword}[1]{\textbf{#1}}
+\newcommand{\tabhead}[1]{\textbf{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\file}[1]{\texttt{\bfseries#1}}
+\newcommand{\option}[1]{\texttt{\itshape#1}}
+\newcommand\blankpage{
+	\null
+	\thispagestyle{empty}
+	\addtocounter{page}{0}
+	\newpage}
+%================================================================
+% Estilado codigo tesina
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{codestyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+
+%================================================================
+% DATOS DE  PORTADA
+%----------------------------------------------------------------------------------------
+% Datos Institucionales.
+\universidad{	\href{www.ungs.edu.ar}{Universidad Nacional de General Sarmiento}}
+\instituto{\href{https://www.ungs.edu.ar/idei/idei}{Instituto de Industria (IDEI)}}
+%----------------------------------------------------------------------------------------
+% Datos Particulares
+\titulo{\vspace{-4.5cm} Rastreo de dispositivos móviles mediante el uso de paquetes de control 802.11 con dispositivos de baja potencia }
+% Grado Alcanzado
+\grado{Licenciado en Sistemas} % Cambiar según corresponda (a/o/os/as)
+%Autorres
+\autor{Agustin C. Alexander}
+\autormail{agustin.c.alexander@gmail.com}
+% Gupo de Investigación o Laboratorio. (si fuera necesario declarar, quitar ~ y reemplazar por el nombre)
+\grupo{~} 
+%Directores, Supervisores.
+\supervisor{Alexis Tcach Lufrano}
+
+%===========================================================================
+%DECLARACIÓN DE ACRÓNIMOS Y GLOSARIO
+%----------------------------------------------------------------------------------------
+% Los Acrónimos y Glosario de terminos se declara en el encabezado (previo al cuerpo del documento)
+% Se emplea el paquete "acro" : https://github.com/cgnieder/acro/
+% Hay ciertas incompatibilidades entre diferentes compiladores de latex 
+% principalmente por el versionado.   .
+%----------------------------------------------------------------------------------------
+%% Con LiveTex ()LINUX)
+%% class 'abbrev':abreviaciones:
+
+%% class 'nomencl':glosario
+% For the glossary (nomenclature)
+
+\DeclareAcronym{rssi}{
+    short = RSSI,
+    long = \textit{Received Signal Strength Indicator},
+    sort = a,
+    class = abbrev
+}
+\DeclareAcronym{ssid}{
+	short = SSID,
+	long  = \textit{Service Set Identifier},
+	sort  = ssid,
+	class = abbrev
+}
+\DeclareAcronym{wpa2}{
+	short = WPA2,
+	long  = \textit{Wi-Fi Protected Access 2},
+	sort  = wpa2,
+	class = abbrev
+}
+\DeclareAcronym{wpa3}{
+	short = WPA3,
+	long  = \textit{Wi-Fi Protected Access 3},
+	sort  = wpa3,
+	class = abbrev
+}
+\DeclareAcronym{bssid}{
+	short = BSSID,
+	long  = \textit{Basic Service Set Identifier},
+	sort  = ssid,
+	class = abbrev
+}
+\DeclareAcronym{gps}{
+	short = GPS,
+	long  = \textit{Global Positioning System},
+	sort  = c,
+	class = abbrev
+}
+\DeclareAcronym{sdk}{
+	short = SDK,
+	long  = \textit{Software Development Kit},
+	sort  = d,
+	class = abbrev
+}
+\DeclareAcronym{esp}{
+	short = ESP8266,
+	long  = \textit{Espressif System's Wi-Fi Microchip},
+	sort  = e,
+	class = abbrev
+}
+\DeclareAcronym{ble}{
+	short = BLE,
+	long  = \textit{Bluetooth Low Energy},
+	sort  = f,
+	class = abbrev
+}
+\DeclareAcronym{wifi}{
+	short = Wi-Fi,
+	long  = \textit{Wireless Fidelity},
+	sort  = g,
+	class = abbrev
+}
+\DeclareAcronym{dbm}{
+	short = dBm,
+	long  = \textit{Decibels relative to one milliwatt},
+	sort  = h,
+	class = abbrev
+}
+\DeclareAcronym{api}{
+	short = API,
+	long  = \textit{Application Programming Interface},
+	sort  = i,
+	class = abbrev
+}
+\DeclareAcronym{lan}{
+	short = LAN,
+	long  = \textit{Local Area Network},
+	sort  = j,
+	class = abbrev
+}
+\DeclareAcronym{wan}{
+	short = WAN,
+	long  = \textit{Wide Area Network},
+	sort  = k,
+	class = abbrev
+}
+\DeclareAcronym{lpwan}{
+	short = LPWAN,
+	long  = \textit{Low Power Wide Area Network},
+	sort  = l,
+	class = abbrev
+}
+\DeclareAcronym{lora}{
+	short = LoRa,
+	long  = \textit{Long Range},
+	sort  = m,
+	class = abbrev
+}
+\DeclareAcronym{nbiot}{
+	short = NB-IoT,
+	long  = \textit{Narrowband IoT},
+	sort  = n,
+	class = abbrev
+}
+\DeclareAcronym{beacons}{
+	short = Beacon,
+	long  = \textit{Beacon Frame},
+	sort  = beacon,
+	class = nomencl
+}
+\DeclareAcronym{prq}{
+	short = PRQ,
+	long  = \textit{Probe Request},
+	sort  = prq,
+	class = nomencl
+}
+\DeclareAcronym{prs}{
+	short = PRS,
+	long  = \textit{Probe Response},
+	sort  = prs,
+	class = nomencl
+}
+\DeclareAcronym{ap}{
+	short = AP,
+	long  = \textit{Access Point},
+	sort  = o,
+	class = abbrev
+}
+\DeclareAcronym{rpi}{
+	short = RPI,
+	long  = \textit{Raspberry Pi},
+	sort  = rpi,
+	class = abbrev
+}
+\DeclareAcronym{esp32}{
+	short = ESP32,
+	long  = \textit{Espressif Systems Wi-Fi + Bluetooth Microchip},
+	sort  = esp32,
+	class = abbrev
+}
+\DeclareAcronym{mac}{
+	short = MAC,
+	long  = \textit{Media Access Control Address},
+	sort  = mac,
+	class = abbrev
+}
+\DeclareAcronym{vin}{
+	short = VIN,
+	long  = \textit{Voltage In},
+	sort  = vin,
+	class = abbrev
+}
+\DeclareAcronym{gnd}{
+	short = GND,
+	long  = \textit{Ground},
+	sort  = gnd,
+	class = abbrev
+}
+\DeclareAcronym{sdcard}{
+	short = SD,
+	long  = \textit{Secure Digital Card},
+	sort  = sdcard,
+	class = abbrev
+}
+\DeclareAcronym{udp}{
+	short = UDP,
+	long  = \textit{User Datagram Protocol},
+	sort  = udp,
+	class = abbrev
+}
+\DeclareAcronym{csv}{
+	short = CSV,
+	long  = \textit{Comma-Separated Values},
+	sort  = csv,
+	class = abbrev
+}
+\DeclareAcronym{ip}{
+	short = IP,
+	long  = \textit{Internet Protocol},
+	sort  = ip,
+	class = abbrev
+}
+\DeclareAcronym{5g}{
+	short = 5G,
+	long  = \textit{Fifth Generation},
+	sort  = 5g,
+	class = abbrev
+}
+\DeclareAcronym{odv}{
+    short = AODV,
+    sort  = odv,
+    long = \textit{Ad hoc On-Demand Distance Vector Routing},
+    class = abbrev
+}
+\DeclareAcronym{ns3}{
+    short = NS3,
+    sort  = ns3,
+    long = \textit{Network Simulator 3},
+    class = abbrev
+}
+\DeclareAcronym{ungs}{
+    short = UNGS,
+    long = Universidad Nacional de General Sarmiento,
+    class = abbrev
+}
+\DeclareAcronym{usb}{
+    short = USB,
+    long = \textit{Universal Serial Bus},
+    class = abbrev
+}
+\DeclareAcronym{slsqp}{
+    short = SLSQP,
+    long = \textit{Sequential Least Squares Quadratic} Programming,
+    class = abbrev
+}
+
+\DeclareAcronym{iot}{
+    short = IOT,
+    long = Internet of Things,
+    class = abbrev
+}
+
+%% Con MikTex (Mac - Windows)
+%%
+%% tag 'abbrev':abreviaciones:
+%\DeclareAcronym{id}{
+%	short = I+D ,
+%	long  = Investigación y Desarrollo,
+%	tag = abbrev}
+
+%% tag 'nomencl': glosario
+%\DeclareAcronym{angelsperarea}{
+%	short = \ensuremath{a} ,
+%	long  = El número de ángeles por unidad de área ,
+%	sort  = a ,
+%	tag = nomencl}
+
+%=======================================================================================
+% DOCUMENTO DE TESIS
+\begin{document}
+
+% Numeración romana para las páginas preliminares
+\pagenumbering{roman} 
+
+%----------------------------------------------------------------------------------------
+%  Título - PORTADA 
+%----------------------------------------------------------------------------------------
+\begin{titlepage}
+	\begin{tikzpicture}[remember picture, overlay]
+		\node[
+		anchor=center,
+		xshift=7.5cm,
+		yshift=4cm,
+		rectangle,
+		%fill=gray!20!white,
+		%fill opacity=0.8,
+		inner ysep=5pt,
+		inner xsep=3cm,
+		%text opacity=0.8,
+		%text width=\paperwidth+1cm, % Set text width in order to force left-alignment
+		]{\includegraphics[width=22cm]{Figuras/ungs.png}};
+	
+	\end{tikzpicture}
+
+	\begin{center}
+		\vspace{-1.5cm}
+		{\scshape\LARGE \univn\par}
+		\vspace{1.5cm} % University name
+		\textsc{\Large Tesina de la Licenciatura de Sistemas}\\[1.5cm] % Tipo de tesis
+		\hrule
+		\vspace{6.0cm}
+		{\huge \bfseries \ttitle\par} \vspace{1.4cm} % Título de la tesis
+		\hrule
+		\vspace*{.06\textheight}
+		\begin{minipage}[t]{0.4\textwidth}
+			\begin{flushleft} \large
+				\emph{Autor:}\\
+				\href{\autorm}{\autorn} \\ % Autor /a 
+				% salto de línea necesario
+				\href{\coautorm}{\coautorn} %  Coautor/a  
+			\end{flushleft}
+		\end{minipage}
+		\begin{minipage}[t]{0.4\textwidth}
+			\begin{flushright} \large
+				\emph{Supervisor:} \\
+				\supname
+				
+				% salto de línea necesario
+				\cosupname
+			\end{flushright}
+		\end{minipage}\\[2cm]
+		\vfill
+		\large \textit{La tesina se presenta para cumplir con los requerimientos de grado de \\ \gradon}\\[0.3cm] % University requirement text
+		\textit{en el}\\[0.4cm]
+		{\color{ideicolor} \grupon \\ \LARGE \instn}\\[1cm] % Research group name and department name
+		\vfill
+		{\large \today}\\[4cm] % Date
+		%\includegraphics{Logo} % University/department logo - uncomment to place it
+		
+		\vfill
+	\end{center}
+\end{titlepage}
+
+
+%----------------------------------------------------------------------------------------
+%	PÁGINA DE CITA, si el autor lo requiere
+%----------------------------------------------------------------------------------------
+\vspace*{0.1\textheight}
+
+{\itshape Cuando se empieza a hablar en términos absolutos en la política, significa que las atrocidades están a punto de comenzar. La humanidad ha logrado cosas asombrosas simplemente avanzando a través de discusiones, quejas, luchas y negociaciones. Es caótico y poco digno, pero es cuando estamos en nuestra mejor forma, porque todos tienen la oportunidad de hacer competir su voz. Incluso si otros intentan constantemente callarla. Cuando solo una voz tiene la posibilidad de ser expresada, lo que suele surgir de eso puede ser algo terrible. }\bigbreak
+
+\hfill Persepolis Rising - James S.A. Corey, 2017
+
+\afterpage{\blankpage}
+\clearpage
+
+%--------------------------------------------------------------------------------------
+%  RESUMEN
+%--------------------------------------------------------------------------------------
+\begin{abstract} 
+	\addcontentsline{toc}{section}{Resumen}
+	\input{Capitulos/resumen.tex}
+\end{abstract}
+
+\afterpage{\blankpage}
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	AGRADECIMIENTOS	
+%----------------------------------------------------------------------------------------
+\section*{Agradecimientos}
+\addcontentsline{toc}{section}{Agradecimientos}
+        Muchas gracias a Alexis Tcach y a Ivan Jourdan, quienes sin sus ideas y su guia este trabajo jamas hubiera sido posible. A Pedro Gutierrez, Sebastian Pintos, Bruno Capecce y Fernando Molachino por ayuda durante la fase experimental de este proyecto. Y finalmente a todos los que me incitaron a terminar este trabajo y me empujaron a mas.\ldots
+\newpage
+
+%-------------------------------------------------------------------------------------
+%  INDICES
+%-------------------------------------------------------------------------------------
+% Lista de Abreviaciones
+\printacronyms[include-classes=abbrev,name={\Huge Lista de abreviaciones \\}]   %TexLive
+%\printacronyms[include=abbrev,name={\Huge Lista de Abreviaciones \\}]  % MikTex
+\addcontentsline{toc}{section}{Lista de Abreviaciones}
+\cleardoublepage
+% Lista de Nomenclaturas
+\printacronyms[include-classes=nomencl,name={\Huge  Glosario \\}]  %TexLive
+%\printacronyms[include=nomencl,name={\Huge  Glosario \\}]  %MikTex
+\addcontentsline{toc}{section}{Glosario}
+% Lista de Figuras
+\listoffigures
+\addcontentsline{toc}{section}{Índice de Figuras}
+% Lista de cuadros
+\listoftables
+\addcontentsline{toc}{section}{Índice de Cuadros}
+% Índice
+\renewcommand\headrulewidth{1pt} % a partir de aquí se tienen una línea en el header
+\tableofcontents
+\addcontentsline{toc}{section}{Índice General}
+
+\clearpage
+
+%----------------------------------------------------------------------------------------
+%	DEDICATORIA	
+%----------------------------------------------------------------------------------------
+\chapter*{}
+\addcontentsline{toc}{section}{Dedicatoria}
+\vspace*{0.2\textheight}
+
+\begin{center}{\Large\slshape Para mi Padre, Alfredo Carlos Alexander, quien despertó en mi desde muy temprano mi pasión por la ingeniería y gracias a quien elegí esta carrera. Y a mi madre, María Teresa Campos, quien ante cada obstaculo siempre me alentó a continuar en mis estudios.}\end{center}
+
+\afterpage{\blankpage}
+\clearpage
+%----------------------------------------------------------------------------------------
+% Numeración arábiga para el cuerpo de la tesis.
+\pagenumbering{arabic} 
+%-----------------------------------------------------------------------------------
+% Capítulos 
+%-----------------------------------------------------------------------------------
+\include{Capitulos/cap1}
+\include{Capitulos/cap2}
+\include{Capitulos/cap3}
+\include{Capitulos/cap4}
+\include{Capitulos/cap5}
+\include{Capitulos/cap6}
+%\include{Capitulos/cap7}
+%\include{Capitulos/cap20}
+%\include{Cap/cap4}
+%\include{Cap/cap5}
+
+%\afterpage{\blankpage}
+
+%-----------------------------------------------------------------------------------
+% Anexos 
+%-----------------------------------------------------------------------------------
+%\begin{appendices}
+%\include{Apendices/ap1}
+%\include{Apendices/ap2}
+%\include{Apendices/ap3}
+%\end{appendices}
+
+
+%-----------------------------------------------------------------------------------
+% Referencias
+%-----------------------------------------------------------------------------------
+\bibliographystyle{plain}
+\bibliography{Referencias/tesina.bib} %tesina.bib
+\addcontentsline{toc}{chapter}{Bibliografía}
+
+\end{document}
