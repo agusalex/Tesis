@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tesina Alexander</title>
+    <meta charset="utf-8">
+<style>
+@import url(https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
+@import url(https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
+@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+
+body { font-family: 'Droid Serif';}
+h1, h2, h3 {
+font-family: 'Yanone Kaffeesatz';
+font-weight: normal;
+}
+.remark-slide-content { font-size:26px; }
+/* Ensure code blocks can scroll horizontally if needed */
+.remark-code {
+  overflow-x: auto !important; /* Make sure horizontal overflow scrolls */
+  max-width: 100%; /* Prevent breaking layout excessively */
+}
+.remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
+
+/* Basic styling for loading/error messages */
+#loading-message, #error-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5em;
+    color: #555;
+}
+#error-message {
+    color: red;
+    max-width: 80%;
+    text-align: center;
+}
+
+</style>
+</head>
+<body>
+    <!-- No textarea needed here -->
+
+    <!-- Loading indicator -->
+    <div id="loading-message">Loading presentation...</div>
+    <div id="error-message" style="display: none;"></div>
+
+    <script src="js/remark-latest.min.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loadingMessage = document.getElementById('loading-message');
+            const errorMessage = document.getElementById('error-message');
+            const defaultFile = 'README.md'; // Default file if param is missing
+
+            // --- Get file path from query parameter ---
+            const urlParams = new URLSearchParams(window.location.search);
+            const requestedFile = urlParams.get('file'); // Get the 'file' parameter value
+            const filePath = requestedFile ? requestedFile : defaultFile; // Use requested file or default
+            // ------------------------------------------
+
+            // Display loading message indicating which file is being loaded
+            if (loadingMessage) {
+                loadingMessage.textContent = `Loading presentation from ${filePath}...`;
+                loadingMessage.style.display = 'block'; // Ensure it's visible initially
+            }
+            if (errorMessage) errorMessage.style.display = 'none'; // Hide error initially
+
+            fetch(filePath) // Use the determined file path
+                .then(response => {
+                    if (!response.ok) {
+                        // Use the actual filePath in the error message
+                        throw new Error(`HTTP error! Status: ${response.status} - Could not fetch ${filePath}`);
+                    }
+                    return response.text();
+                })
+                .then(markdownContent => {
+                    // Hide loading message
+                    if (loadingMessage) loadingMessage.style.display = 'none';
+
+                    // Initialize Remark, passing the fetched source directly
+                    var slideshow = remark.create({
+                        source: markdownContent, // <-- Pass the fetched markdown here
+                        countIncrementalSlides: false,
+                        navigation: {
+                            scroll: false,
+                        }
+                        // Add any other remark options you need
+                    });
+                    console.log(`Successfully loaded presentation from ${filePath}`);
+                })
+                .catch(error => {
+                    console.error(`Error loading presentation from ${filePath}:`, error);
+                    if (loadingMessage) loadingMessage.style.display = 'none';
+                    if (errorMessage) {
+                        // Use the actual filePath in the error message
+                        errorMessage.textContent = `Failed to load presentation from ${filePath}. Error: ${error.message}. Please check the file path, URL parameter, and browser console.`;
+                        errorMessage.style.display = 'block';
+                    }
+                });
+        });
+    </script>
+</body>
+</html>
